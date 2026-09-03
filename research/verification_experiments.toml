@@ -1,0 +1,74 @@
+config_version = 1
+
+[defaults]
+api_endpoint = "responses"
+model = "gpt-5.4-mini-2026-03-17"
+temperature = 0.0
+reasoning_effort = "low"
+max_output_tokens = 600
+
+[experiments.original-v1]
+description = "Ocena z goldem, aliasami i pasażem."
+input_fields = [
+	"question_id",
+	"category",
+	"question",
+	"gold_answer",
+	"accepted_answers",
+	"reference_passage",
+	"model_response",
+]
+prompt = "prompts/silver_annotation_v1.md"
+output = "weryfikacja/original-v1/silver_labels.jsonl"
+archive = "weryfikacja/original-v1/surowe_adnotacje.jsonl"
+api_endpoint = "chat_completions"
+web_search = false
+
+[experiments.gold-only-v1]
+description = "Ocena wyłącznie na podstawie odpowiedzi wzorcowej i jej dopuszczalnych wariantów, bez pasaża i web search."
+artifacts_dir = "output/gold-only-v1/3"
+input_fields = [
+	"question_id",
+	"category",
+	"question",
+	"gold_answer",
+	"accepted_answers",
+	"model_response",
+]
+prompt = "prompts/silver_annotation_gold_only_v1.md"
+output = "silver_labels.jsonl"
+archive = "surowe_adnotacje.jsonl"
+web_search = false
+
+[experiments.passage-v1]
+description = "Ocena na podstawie pasaża przekazanego bezpośrednio annotatorowi. Gold answer i accepted answers nie występują w input_fields."
+artifacts_dir = "output/passage-v1/5"
+input_fields = [
+	"question_id",
+	"category",
+	"question",
+	"reference_passage",
+	"model_response",
+]
+prompt = "prompts/silver_annotation_passage_v1.md"
+output = "silver_labels.jsonl"
+archive = "surowe_adnotacje.jsonl"
+web_search = false
+
+[experiments.source-web-v1]
+description = "Ocena po samodzielnym sprawdzeniu źródła wskazanego przez URL. Reference passage, gold answer i accepted answers nie występują tutaj."
+artifacts_dir = "output/source-web-v1/2"
+input_fields = [
+	"question_id",
+	"category",
+	"question",
+	"source_url",
+	"model_response",
+]
+prompt = "prompts/silver_annotation_source_web_v1.md"
+output = "silver_labels.jsonl"
+archive = "surowe_adnotacje.jsonl"
+web_search = true
+web_search_context_size = "high"
+require_exact_source = true
+max_output_tokens = 2000

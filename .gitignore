@@ -1,0 +1,7 @@
+# Lokalne zmienne środowiskowe i sekrety
+.env
+.env.*
+!.env.example
+
+# Surowe żądania i odpowiedzi usług zewnętrznych
+data/selekcja_triviaqa/tlumaczenie/surowe_odpowiedzi.jsonl
